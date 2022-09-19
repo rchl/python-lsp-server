@@ -3,7 +3,7 @@
 
 """Linter pluging for flake8"""
 import logging
-import os.path
+import os
 import re
 import sys
 from pathlib import PurePath
@@ -89,6 +89,9 @@ def run_flake8(flake8_executable, args, document):
     # a quick temporary fix to deal with Atom
     args = [(i if not i.startswith('--ignore=') else FIX_IGNORES_RE.sub('', i))
             for i in args if i is not None]
+
+    # Let flake8 know the actual file path so rules based on path/filename can apply.
+    args.extend(['--stdin-display-name', document.path])
 
     # if executable looks like a path resolve it
     if not os.path.isfile(flake8_executable) and os.sep in flake8_executable:

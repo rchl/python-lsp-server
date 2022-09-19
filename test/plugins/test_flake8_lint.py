@@ -87,7 +87,7 @@ def test_flake8_executable_param(workspace):
         assert flake8_executable in call_args
 
 
-def get_flake8_cfg_settings(workspace, config_str):
+def write_and_return_flake8_cfg_settings(workspace, config_str):
     """Write a ``setup.cfg``, load it in the workspace, and return the flake8 settings.
 
     This function creates a ``setup.cfg``; you'll have to delete it yourself.
@@ -113,7 +113,7 @@ exclude =
     doc_uri = uris.from_fs_path(os.path.join(workspace.root_path, "blah/__init__.py"))
     workspace.put_document(doc_uri, doc_str)
 
-    flake8_settings = get_flake8_cfg_settings(workspace, config_str)
+    flake8_settings = write_and_return_flake8_cfg_settings(workspace, config_str)
 
     assert "exclude" in flake8_settings
     assert len(flake8_settings["exclude"]) == 2
@@ -147,7 +147,7 @@ exclude =
     doc_uri = uris.from_fs_path(os.path.join(workspace.root_path, "blah/__init__.py"))
     workspace.put_document(doc_uri, doc_str)
 
-    flake8_settings = get_flake8_cfg_settings(workspace, config_str)
+    flake8_settings = write_and_return_flake8_cfg_settings(workspace, config_str)
 
     assert "perFileIgnores" in flake8_settings
     assert len(flake8_settings["perFileIgnores"]) == 2
@@ -171,7 +171,7 @@ per-file-ignores = **/__init__.py:F401,E402
     doc_uri = uris.from_fs_path(os.path.join(workspace.root_path, "blah/__init__.py"))
     workspace.put_document(doc_uri, doc_str)
 
-    flake8_settings = get_flake8_cfg_settings(workspace, config_str)
+    flake8_settings = write_and_return_flake8_cfg_settings(workspace, config_str)
 
     assert "perFileIgnores" in flake8_settings
     assert len(flake8_settings["perFileIgnores"]) == 2
